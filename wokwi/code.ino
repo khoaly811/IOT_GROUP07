@@ -267,3 +267,48 @@ void controlServos() {
   servo3.write(90);
   servo4.write(90);
   delay(1000);
+  oid loop() {
+  if (getScale()){
+    if (start_time == -1) {
+      start_time = millis();
+    }
+    Serial.println(start_time);
+    if(!espClient.connected()) {
+      mqttReconnect();
+    }
+    Client.loop();
+
+  
+    tempAndHumid();
+    if (digitalRead(PIR_PIN) == HIGH){
+      // countTime();
+      unsigned long current_time = millis();
+      long sleep_time = current_time - start_time - previous_time;
+      detectMotion();
+      previous_time = current_time + 10500;
+      total_sleep += sleep_time;
+    }
+    Serial.print("Total sleep: ");
+    Serial.print(total_sleep);
+    Serial.println(" milliseconds");
+    int returncode = ThingSpeak.writeFields(myChannelNumber, myWriteAPIKey);
+
+
+    if (returncode == 200) {
+      Serial.println("Channel update successful.");
+    }
+    else {
+      Serial.println("Problem updating channel. HTTP error code");
+    }
+    // Wait a bit before scanning again
+    delay(500);
+  }
+  else {
+    start_time = -1;
+    if(total_sleep > 0) {
+      Serial.println(total_sleep);
+      total_sleep = 0;
+    }
+    previous_time = 0;
+  }
+}
