@@ -41,8 +41,8 @@ HX711 scale;
 const char* ssid = "Wokwi-GUEST";
 const char* pwd = "";
 const char* mqttServer = "test.mosquitto.org";
-const char* host = "";
-const char* req = "";
+
+const char* host = "maker.ifttt.com";
 int port = 1883;
 unsigned long myChannelNumber = 2373888;
 const char* myWriteAPIKey = "5U7X98T6N86XGGA2";
@@ -68,7 +68,7 @@ void mqttReconnect(){
     Serial.println("Attemping MQTT connection...");
     if(Client.connect("21127211")){
       Serial.println("Connected");
-      Client.subscribe("topicName/led");
+      Client.subscribe("home/data");
     }
     else {
       Serial.println("Try again in 2 secs");
@@ -77,7 +77,7 @@ void mqttReconnect(){
   }
 }
 
-void sendHttpRequest() {
+void sendIFFTRequest(const char* request, String requestData) {
   Serial.print("connecting to ");
   Serial.print(host);
   Serial.print(":");
@@ -89,7 +89,7 @@ void sendHttpRequest() {
     delay(500);
   }
 
-  client.print(String("GET /") + String(req) + "HTTP/1.1\r\n" + "Host: " + host + "\r\n" + "Connection : close\r\n\r\n");
+  client.print(String("GET /") + request + requestData + "HTTP/1.1\r\n" + "Host: " + host + "\r\n" + "Connection : close\r\n\r\n");
   delay(500);
 
   while (client.available()) {
@@ -164,7 +164,7 @@ void loop() {
     int sleep_thingspeak = 0;
     if (total_sleep > 0){
       sleep_thingspeak = 1;
-    } else{
+    } else {
       sleep_thingspeak = 0;
     }
     ThingSpeak.setField(3, sleep_thingspeak);
@@ -339,3 +339,4 @@ void controlServos() {
   servo4.write(90);
   delay(1000);
 }
+
