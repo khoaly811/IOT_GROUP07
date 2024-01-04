@@ -42,7 +42,6 @@ const char* ssid = "Wokwi-GUEST";
 const char* pwd = "";
 const char* mqttServer = "test.mosquitto.org";
 
-const char* host = "maker.ifttt.com";
 int port = 1883;
 unsigned long myChannelNumber = 2373888;
 const char* myWriteAPIKey = "5U7X98T6N86XGGA2";
@@ -52,7 +51,8 @@ PubSubClient Client(espClient);
 unsigned long previous_time = 0;
 unsigned long total_sleep = 0;
 unsigned long start_time = 0;
-
+bool isMute = false;
+bool isBuzzerHit = false;
 void wifiConnect(){
   WiFi.begin(ssid, pwd);
   while(WiFi.status() != WL_CONNECTED) {
@@ -66,9 +66,10 @@ void wifiConnect(){
 void mqttReconnect(){
   while(!Client.connected()) {
     Serial.println("Attemping MQTT connection...");
-    if(Client.connect("21127211")){
+    if(Client.connect("21127629")){
       Serial.println("Connected");
-      Client.subscribe("home/data");
+      Client.subscribe("buzzer/trigger");
+      // Client.subscribe("buzzer/mute");
     }
     else {
       Serial.println("Try again in 2 secs");
@@ -77,27 +78,6 @@ void mqttReconnect(){
   }
 }
 
-void sendIFFTRequest(const char* request, String requestData) {
-  Serial.print("connecting to ");
-  Serial.print(host);
-  Serial.print(":");
-  Serial.println(port);
-
-  WiFiClient client;
-  while (!client.connect(host, port)){
-    Serial.println("connection fail");
-    delay(500);
-  }
-
-  client.print(String("GET /") + request + requestData + "HTTP/1.1\r\n" + "Host: " + host + "\r\n" + "Connection : close\r\n\r\n");
-  delay(500);
-
-  while (client.available()) {
-    String line = client.readStringUntil('\R');
-    Serial.print(line);
-  }
-  Serial.println();
-}
 
 void callback(char* topic, byte* message, unsigned int length) {
   Serial.print(topic);
@@ -107,6 +87,15 @@ void callback(char* topic, byte* message, unsigned int length) {
   }
   Serial.println(": ");
   Serial.println(stMessage);
+  String stTopic = String(topic);
+  if (stTopic == "buzzer/trigger"){
+      // isMute = (stMessage == "true") ? true : false;
+      // isBuzzerHit = (stMessage == "true") ? true : false;
+      isMute = (stMessage == "true") ? true : false;
+
+  }
+  // else if (stTopic == "buzzer/mute"){
+  // }
 }
 
 void setup() {
@@ -135,65 +124,89 @@ void setup() {
   ThingSpeak.begin(espClient);
 
 }
-
-void loop() {
+void displayMotionOnLED() {
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Motion detected!");
+  digitalWrite(LED2_PIN, HIGH);
+  digitalWrite(LED3_PIN, HIGH);
+  digitalWrite(LED2_PIN, LOW);
+  digitalWrite(LED3_PIN, LOW);
+}
+bool detectMotion(){
   if (getScale()){
-    if (start_time == 0) {
-      start_time = millis();
+    if (digitalRead(PIR_PIN) == HIGH){
+      return true;
     }
-    Serial.println(start_time);
-    if(!espClient.connected()) {
+    else if (digitalRead(PIR_PIN) == LOW){
+      return false;
+    }
+  }
+  return false;
+}
+void loop() {
+  if(!espClient.connected()) {
       mqttReconnect();
-    }
-    Client.loop();
+  }
+  Client.loop();
+  if (detectMotion() == true){
+    displayMotionOnLED;
+    controlServos();
+  } 
 
   
-    tempAndHumid();
-    if (digitalRead(PIR_PIN) == HIGH){
-      // countTime();
-      unsigned long current_time = millis();
-      long sleep_time = current_time - start_time - previous_time;
-      detectMotion();
-      previous_time = current_time + 10500;
-      total_sleep += sleep_time;
-    }
-    Serial.print("Total sleep: ");
-    Serial.print(total_sleep);
-    Serial.println(" milliseconds");
-    int returncode = ThingSpeak.writeFields(myChannelNumber, myWriteAPIKey);
-    int sleep_thingspeak = 0;
-    if (total_sleep > 0){
-      sleep_thingspeak = 1;
-    } else {
-      sleep_thingspeak = 0;
-    }
-    ThingSpeak.setField(3, sleep_thingspeak);
 
-    if (returncode == 200) {
-      Serial.println("Channel update successful.");
-    }
-    else {
-      Serial.println("Problem updating channel. HTTP error code");
-    }
-    // Wait a bit before scanning again
-    delay(500);
-  }
-  else {
-    start_time = 0;
-    if(total_sleep > 0) {
-      Serial.println(total_sleep);
-      int returncode = ThingSpeak.writeFields(myChannelNumber, myWriteAPIKey);
-      int sleep_thingspeak = 0;
-      if (total_sleep > 0){
-        sleep_thingspeak = 1;
-      } else{
-        sleep_thingspeak = 0;
-      }
-      ThingSpeak.setField(3, sleep_thingspeak);
-      total_sleep = 0;
-    }
-    previous_time = 0;
-  }
+  // if (getScale()){
+  //   if (start_time == 0) {
+  //     start_time = millis();
+  //   }
+  //   Serial.println(start_time);
+   
+  //   int returncode = ThingSpeak.writeFields(myChannelNumber, myWriteAPIKey);
+  //   int sleep_thingspeak = 0;
+  //   if (returncode == 200) {
+  //     Serial.println("Channel update successful.");
+  //   }
+  //   else {
+  //     Serial.println("Problem updating channel. HTTP error code");
+  //   }
+  //   if (digitalRead(PIR_PIN) == HIGH){
+  //     // countTime();
+  //     unsigned long current_time = millis();
+  //     long sleep_time = current_time - start_time - previous_time;
+  //     detectMotion();
+  //     previous_time = current_time + 10500;
+  //     total_sleep += sleep_time;
+  //   }
+  //   Serial.print("Total sleep: ");
+  //   Serial.print(total_sleep);
+  //   Serial.println(" milliseconds");
+  //   if (total_sleep > 0){
+  //     sleep_thingspeak = 1;
+  //   } else{
+  //     sleep_thingspeak = 0;
+  //   }
+  //   ThingSpeak.setField(3, sleep_thingspeak);
+
+  //   // Wait a bit before scanning again
+  //   delay(500);
+  // }
+  // else {
+  //   start_time = 0;
+  //   if(total_sleep > 0) {
+  //     Serial.println(total_sleep);
+  //     int returncode = ThingSpeak.writeFields(myChannelNumber, myWriteAPIKey);
+  //     int sleep_thingspeak = 0;
+  //     if (total_sleep > 0){
+  //       sleep_thingspeak = 1;
+  //     } else{
+  //       sleep_thingspeak = 0;
+  //     }
+  //     ThingSpeak.setField(3, sleep_thingspeak);
+  //     total_sleep = 0;
+  //   }
+  //   previous_time = 0;
+  // }
 
 }
 
@@ -239,19 +252,6 @@ void tempAndHumid(){
 
 
 
-void detectMotion() {
-  lcd.clear();
-  lcd.setCursor(0, 0);
-  lcd.print("Motion detected!");
-  digitalWrite(BUZZER_PIN, HIGH);
-  digitalWrite(LED2_PIN, HIGH);
-  digitalWrite(LED3_PIN, HIGH);
-  controlServos();
-  playMelody();
-  digitalWrite(LED2_PIN, LOW);
-  digitalWrite(LED3_PIN, LOW);
-}
-
 void soundAlarm() {
   digitalWrite(BUZZER_PIN, HIGH);
   delay(5000); // Sound alarm for 5 seconds
@@ -259,7 +259,7 @@ void soundAlarm() {
 }
 
 void playMelody() {
-
+  if (isMute == true) return;
   // Define the melody notes and durations
   // int melody[] = {NOTE_C4, NOTE_D4, NOTE_E4, NOTE_F4, NOTE_G4, NOTE_A4, NOTE_B4};
   int melody[] = {NOTE_C4, NOTE_E4, NOTE_G4, NOTE_B4};
@@ -292,6 +292,8 @@ void controlServos() {
   servo2.write(180);
   servo3.write(0);
   servo4.write(0);
+  playMelody();
+
   delay(1000);
   servo1.write(90);
   servo2.write(90);
@@ -302,6 +304,8 @@ void controlServos() {
   servo2.write(180);
   servo3.write(0);
   servo4.write(0);
+  playMelody();
+
   delay(1000);
   servo1.write(90);
   servo2.write(90);
@@ -312,6 +316,8 @@ void controlServos() {
   servo2.write(180);
   servo3.write(0);
   servo4.write(0);
+  playMelody();
+
   delay(1000);
   servo1.write(90);
   servo2.write(90);
@@ -322,6 +328,8 @@ void controlServos() {
   servo2.write(180);
   servo3.write(0);
   servo4.write(0);
+  playMelody();
+
   delay(1000);
   servo1.write(90);
   servo2.write(90);
@@ -332,6 +340,8 @@ void controlServos() {
   servo2.write(180);
   servo3.write(0);
   servo4.write(0);
+  playMelody();
+
   delay(1000);
   servo1.write(90);
   servo2.write(90);
