@@ -1,0 +1,441 @@
+[
+    {
+        "id": "f443ee7e56592f80",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "b0be7ceaae9a8f0f",
+        "type": "ui_form",
+        "z": "f443ee7e56592f80",
+        "name": "login",
+        "label": "Login",
+        "group": "b04094c5dac47317",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "options": [
+            {
+                "label": "Username",
+                "value": "username",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Password",
+                "value": "password",
+                "type": "password",
+                "required": true,
+                "rows": null
+            }
+        ],
+        "formValue": {
+            "username": "",
+            "password": ""
+        },
+        "payload": "",
+        "submit": "submit",
+        "cancel": "cancel",
+        "topic": "topic",
+        "topicType": "msg",
+        "splitLayout": "",
+        "className": "",
+        "x": 530,
+        "y": 440,
+        "wires": [
+            [
+                "87575f426e662cc2"
+            ]
+        ]
+    },
+    {
+        "id": "f9fb2b65feec0d1f",
+        "type": "mongodb3 in",
+        "z": "f443ee7e56592f80",
+        "service": "_ext_",
+        "configNode": "a5bf18d5d616456a",
+        "name": "mauth",
+        "collection": "account",
+        "operation": "",
+        "x": 1010,
+        "y": 100,
+        "wires": [
+            [
+                "8ebda819a2c4f9ec"
+            ]
+        ]
+    },
+    {
+        "id": "21bdc14fc15f298b",
+        "type": "function",
+        "z": "f443ee7e56592f80",
+        "name": "function 1",
+        "func": "msg.payload = {}\nmsg.operation = \"find.forEach\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 840,
+        "y": 420,
+        "wires": [
+            [
+                "f9fb2b65feec0d1f"
+            ]
+        ]
+    },
+    {
+        "id": "8ebda819a2c4f9ec",
+        "type": "function",
+        "z": "f443ee7e56592f80",
+        "name": "function 2",
+        "func": "if (msg.payload.username == msg.login.username\n    && msg.payload.password == msg.login.password)\n        msg.payload.notification = \"Login successfully\";\nelse\n        msg.payload.notification = \"Incorrect username or password\";\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1140,
+        "y": 400,
+        "wires": [
+            [
+                "604c1c2b3663d4b1"
+            ]
+        ]
+    },
+    {
+        "id": "87575f426e662cc2",
+        "type": "change",
+        "z": "f443ee7e56592f80",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "login",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 680,
+        "y": 100,
+        "wires": [
+            [
+                "21bdc14fc15f298b"
+            ]
+        ]
+    },
+    {
+        "id": "7dbdf59f64878771",
+        "type": "ui_toast",
+        "z": "f443ee7e56592f80",
+        "position": "dialog",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": true,
+        "outputs": 1,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "",
+        "name": "",
+        "x": 1530,
+        "y": 400,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "604c1c2b3663d4b1",
+        "type": "change",
+        "z": "f443ee7e56592f80",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.notification",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1320,
+        "y": 100,
+        "wires": [
+            [
+                "7dbdf59f64878771"
+            ]
+        ]
+    },
+    {
+        "id": "df402f95b64e25c3",
+        "type": "ui_form",
+        "z": "f443ee7e56592f80",
+        "name": "change in4",
+        "label": "Change Information",
+        "group": "35567e95d9036b12",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "options": [
+            {
+                "label": "Username",
+                "value": "username",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "New password",
+                "value": "password",
+                "type": "text",
+                "required": true,
+                "rows": null
+            }
+        ],
+        "formValue": {
+            "username": "",
+            "password": ""
+        },
+        "payload": "",
+        "submit": "submit",
+        "cancel": "cancel",
+        "topic": "topic",
+        "topicType": "msg",
+        "splitLayout": "",
+        "className": "",
+        "x": 530,
+        "y": 700,
+        "wires": [
+            [
+                "8e92ceef6f0ef9d5"
+            ]
+        ]
+    },
+    {
+        "id": "80c39b6740a00cf3",
+        "type": "mongodb3 in",
+        "z": "f443ee7e56592f80",
+        "service": "_ext_",
+        "configNode": "a5bf18d5d616456a",
+        "name": "change password",
+        "collection": "account",
+        "operation": "updateOne",
+        "x": 890,
+        "y": 700,
+        "wires": [
+            [
+                "a42026694e89ae81"
+            ]
+        ]
+    },
+    {
+        "id": "8e92ceef6f0ef9d5",
+        "type": "function",
+        "z": "f443ee7e56592f80",
+        "name": "function 3",
+        "func": "//flow.get(\"password\", msg.payload.password);\nmsg.payload = [{\"username\": \"admin\"}, {$set: {\"password\": msg.payload.password}}];\nmsg.operation = \"updateOne\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 700,
+        "y": 520,
+        "wires": [
+            [
+                "80c39b6740a00cf3"
+            ]
+        ]
+    },
+    {
+        "id": "a42026694e89ae81",
+        "type": "change",
+        "z": "f443ee7e56592f80",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Password changed",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1100,
+        "y": 560,
+        "wires": [
+            [
+                "384da5f3a196424e"
+            ]
+        ]
+    },
+    {
+        "id": "384da5f3a196424e",
+        "type": "ui_toast",
+        "z": "f443ee7e56592f80",
+        "position": "dialog",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": true,
+        "outputs": 1,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "",
+        "name": "",
+        "x": 1290,
+        "y": 700,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "56e42f1643b3391c",
+        "type": "inject",
+        "z": "f443ee7e56592f80",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "servo/turn",
+        "payload": "90",
+        "payloadType": "str",
+        "x": 520,
+        "y": 800,
+        "wires": [
+            [
+                "b43a6c9d475a09a4"
+            ]
+        ]
+    },
+    {
+        "id": "b43a6c9d475a09a4",
+        "type": "mqtt out",
+        "z": "f443ee7e56592f80",
+        "name": "",
+        "topic": "servo/turn",
+        "qos": "2",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "0f531c1ca3146c19",
+        "x": 810,
+        "y": 800,
+        "wires": []
+    },
+    {
+        "id": "b04094c5dac47317",
+        "type": "ui_group",
+        "name": "Home",
+        "tab": "e2c0db14e0242032",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "a5bf18d5d616456a",
+        "type": "mongodb3",
+        "uri": "mongodb+srv://vttin21:superchina@cluster0.1hnnvkh.mongodb.net/?retryWrites=true&w=majority",
+        "name": "",
+        "options": "",
+        "parallelism": "-1"
+    },
+    {
+        "id": "35567e95d9036b12",
+        "type": "ui_group",
+        "name": "Information",
+        "tab": "e34f508fd6549f51",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "0f531c1ca3146c19",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "test.mosquitto.org",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "e2c0db14e0242032",
+        "type": "ui_tab",
+        "name": "Home",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "e34f508fd6549f51",
+        "type": "ui_tab",
+        "name": "Settings",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]
