@@ -53,6 +53,7 @@ unsigned long total_sleep = 0;
 unsigned long start_time = 0;
 bool isMute = false;
 bool isBuzzerHit = false;
+bool isServoHit = false;
 void wifiConnect(){
   WiFi.begin(ssid, pwd);
   while(WiFi.status() != WL_CONNECTED) {
@@ -70,6 +71,7 @@ void mqttReconnect(){
       Serial.println("Connected");
       Client.subscribe("buzzer/trigger");
       // Client.subscribe("buzzer/mute");
+      Client.subscribe("servos/trigger");
     }
     else {
       Serial.println("Try again in 2 secs");
@@ -94,8 +96,9 @@ void callback(char* topic, byte* message, unsigned int length) {
       isMute = (stMessage == "true") ? true : false;
 
   }
-  // else if (stTopic == "buzzer/mute"){
-  // }
+  else if (stTopic == "servos/trigger"){
+      isServoHit = true;
+  }
 }
 
 void setup() {
@@ -139,6 +142,8 @@ bool detectMotion(){
       return true;
     }
     else if (digitalRead(PIR_PIN) == LOW){
+      if (isServoHit == true)
+        controlServos();
       return false;
     }
   }
@@ -154,7 +159,7 @@ void loop() {
     controlServos();
   } 
 
-  
+    
 
   // if (getScale()){
   //   if (start_time == 0) {
@@ -348,5 +353,5 @@ void controlServos() {
   servo3.write(90);
   servo4.write(90);
   delay(1000);
+  isServoHit = false;
 }
-
