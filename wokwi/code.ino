@@ -24,8 +24,11 @@
 LiquidCrystal lcd(23, 22, 21, 19, 18, 5);
 DHT dht(DHT_PIN, DHT22);
 Servo servo1, servo2, servo3, servo4;
+// RTC_DS1307 rtc;
 HX711 scale;
-
+// DateTime startTime;
+// TimeSpan elapsedTime;
+// TimeSpan totalSleepTime;
 
 #define NOTE_C4 261.63
 #define NOTE_D4 293.66
@@ -48,9 +51,8 @@ WiFiClient espClient;
 PubSubClient Client(espClient);
 unsigned long previous_time = 0;
 unsigned long total_sleep = 0;
-unsigned long start_time = -1;
-int cnt = 0;
-int tmp = 0;
+unsigned long start_time = 0;
+
 void wifiConnect(){
   WiFi.begin(ssid, pwd);
   while(WiFi.status() != WL_CONNECTED) {
@@ -131,7 +133,71 @@ void setup() {
   scale.begin(DOUT_PIN, SCK_PIN);
 
   ThingSpeak.begin(espClient);
+
 }
+
+void loop() {
+  if (getScale()){
+    if (start_time == 0) {
+      start_time = millis();
+    }
+    Serial.println(start_time);
+    if(!espClient.connected()) {
+      mqttReconnect();
+    }
+    Client.loop();
+
+  
+    tempAndHumid();
+    if (digitalRead(PIR_PIN) == HIGH){
+      // countTime();
+      unsigned long current_time = millis();
+      long sleep_time = current_time - start_time - previous_time;
+      detectMotion();
+      previous_time = current_time + 10500;
+      total_sleep += sleep_time;
+    }
+    Serial.print("Total sleep: ");
+    Serial.print(total_sleep);
+    Serial.println(" milliseconds");
+    int returncode = ThingSpeak.writeFields(myChannelNumber, myWriteAPIKey);
+    int sleep_thingspeak = 0;
+    if (total_sleep > 0){
+      sleep_thingspeak = 1;
+    } else{
+      sleep_thingspeak = 0;
+    }
+    ThingSpeak.setField(3, sleep_thingspeak);
+
+    if (returncode == 200) {
+      Serial.println("Channel update successful.");
+    }
+    else {
+      Serial.println("Problem updating channel. HTTP error code");
+    }
+    // Wait a bit before scanning again
+    delay(500);
+  }
+  else {
+    start_time = 0;
+    if(total_sleep > 0) {
+      Serial.println(total_sleep);
+      int returncode = ThingSpeak.writeFields(myChannelNumber, myWriteAPIKey);
+      int sleep_thingspeak = 0;
+      if (total_sleep > 0){
+        sleep_thingspeak = 1;
+      } else{
+        sleep_thingspeak = 0;
+      }
+      ThingSpeak.setField(3, sleep_thingspeak);
+      total_sleep = 0;
+    }
+    previous_time = 0;
+  }
+
+}
+
+
 double getWeight() {
   if (scale.is_ready()) return scale.read() * 1000.0 / 420.0;
   else return -1;
@@ -149,9 +215,12 @@ void tempAndHumid(){
   if(temperature > 37 || humidity > 60) {
     soundAlarm();
   }
-  char buffer[50];
-  sprintf(buffer, "{\"temperature\": %d, \"humidity\": %d}", temperature, humidity);
-  Client.publish("topicName/temp", buffer);
+  char buffer1[50];
+  sprintf(buffer1, "{\"temperature\": %d}", temperature);
+  Client.publish("Home/Temperature", buffer1);
+  char buffer2[50];
+  sprintf(buffer2, "{\"humidity\": %d}", humidity);
+  Client.publish("Home/Humidity", buffer2);
   lcd.clear();
   lcd.setCursor(0, 0);
   lcd.print("Temp: "); 
@@ -167,6 +236,8 @@ void tempAndHumid(){
   ThingSpeak.setField(1, temperature);
   ThingSpeak.setField(2, humidity);
 }
+
+
 
 void detectMotion() {
   lcd.clear();
@@ -267,3 +338,5 @@ void controlServos() {
   servo3.write(90);
   servo4.write(90);
   delay(1000);
+}
+
