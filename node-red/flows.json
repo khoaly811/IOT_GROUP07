@@ -315,6 +315,53 @@
         ]
     },
     {
+        "id": "56e42f1643b3391c",
+        "type": "inject",
+        "z": "f443ee7e56592f80",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "servo/turn",
+        "payload": "90",
+        "payloadType": "str",
+        "x": 520,
+        "y": 800,
+        "wires": [
+            [
+                "b43a6c9d475a09a4"
+            ]
+        ]
+    },
+    {
+        "id": "b43a6c9d475a09a4",
+        "type": "mqtt out",
+        "z": "f443ee7e56592f80",
+        "name": "",
+        "topic": "servo/turn",
+        "qos": "2",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "0f531c1ca3146c19",
+        "x": 810,
+        "y": 800,
+        "wires": []
+    },
+    {
         "id": "b04094c5dac47317",
         "type": "ui_group",
         "name": "Home",
@@ -914,7 +961,7 @@
         "className": ""
     },
     {
-        "id": "52ef8be74909898e",
+        "id": "0f531c1ca3146c19",
         "type": "mqtt-broker",
         "name": "",
         "broker": "test.mosquitto.org",
@@ -959,6 +1006,17 @@
         "id": "1ae68597cbbb5d32",
         "type": "ui_tab",
         "name": "Dashboard",
+        "id": "e2c0db14e0242032",
+        "type": "ui_tab",
+        "name": "Home",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "e34f508fd6549f51",
+        "type": "ui_tab",
+        "name": "Settings",
         "icon": "dashboard",
         "disabled": false,
         "hidden": false
