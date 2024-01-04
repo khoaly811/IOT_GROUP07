@@ -132,3 +132,138 @@ void setup() {
 
   ThingSpeak.begin(espClient);
 }
+double getWeight() {
+  if (scale.is_ready()) return scale.read() * 1000.0 / 420.0;
+  else return -1;
+}
+
+bool getScale() {
+  double weight = getWeight();
+  if (weight > 1000) return true;
+  else return false;
+}
+
+void tempAndHumid(){
+  int temperature = dht.readTemperature();
+  int humidity = dht.readHumidity();
+  if(temperature > 37 || humidity > 60) {
+    soundAlarm();
+  }
+  char buffer[50];
+  sprintf(buffer, "{\"temperature\": %d, \"humidity\": %d}", temperature, humidity);
+  Client.publish("topicName/temp", buffer);
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Temp: "); 
+  lcd.print(temperature);
+  lcd.print(" C");
+
+  lcd.setCursor(0, 1);
+  lcd.print("Humidity: ");
+  lcd.print(humidity);
+  lcd.print(" %");
+  delay(500);
+
+  ThingSpeak.setField(1, temperature);
+  ThingSpeak.setField(2, humidity);
+}
+
+void detectMotion() {
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Motion detected!");
+  digitalWrite(BUZZER_PIN, HIGH);
+  digitalWrite(LED2_PIN, HIGH);
+  digitalWrite(LED3_PIN, HIGH);
+  controlServos();
+  playMelody();
+  digitalWrite(LED2_PIN, LOW);
+  digitalWrite(LED3_PIN, LOW);
+}
+
+void soundAlarm() {
+  digitalWrite(BUZZER_PIN, HIGH);
+  delay(5000); // Sound alarm for 5 seconds
+  digitalWrite(BUZZER_PIN, LOW);  
+}
+
+void playMelody() {
+
+  // Define the melody notes and durations
+  // int melody[] = {NOTE_C4, NOTE_D4, NOTE_E4, NOTE_F4, NOTE_G4, NOTE_A4, NOTE_B4};
+  int melody[] = {NOTE_C4, NOTE_E4, NOTE_G4, NOTE_B4};
+
+  // Iterate through the melody
+  for (int i = 0; i < 4; i++) {
+    int noteFrequency = melody[i];
+
+    // Calculate the number of cycles for the PWM signal
+    int cycles = 500;
+
+    // Play the note manually with PWM
+    for (int j = 0; j < cycles; j++) {
+      digitalWrite(BUZZER_PIN, HIGH);
+      delayMicroseconds(noteFrequency);
+      digitalWrite(BUZZER_PIN, LOW);
+      delayMicroseconds(noteFrequency);
+    }
+
+    delay(50);  // add a small delay between notes
+  }
+
+  digitalWrite(BUZZER_PIN, LOW);  // turn off the buzzer
+}
+
+
+void controlServos() {
+  // Motion detected, run the servos
+  servo1.write(180);
+  servo2.write(180);
+  servo3.write(0);
+  servo4.write(0);
+  delay(1000);
+  servo1.write(90);
+  servo2.write(90);
+  servo3.write(90);
+  servo4.write(90);  
+  delay(1000);
+  servo1.write(180);
+  servo2.write(180);
+  servo3.write(0);
+  servo4.write(0);
+  delay(1000);
+  servo1.write(90);
+  servo2.write(90);
+  servo3.write(90);
+  servo4.write(90);
+  delay(1000);
+  servo1.write(180);
+  servo2.write(180);
+  servo3.write(0);
+  servo4.write(0);
+  delay(1000);
+  servo1.write(90);
+  servo2.write(90);
+  servo3.write(90);
+  servo4.write(90);
+  delay(1000);
+  servo1.write(180);
+  servo2.write(180);
+  servo3.write(0);
+  servo4.write(0);
+  delay(1000);
+  servo1.write(90);
+  servo2.write(90);
+  servo3.write(90);
+  servo4.write(90);
+  delay(1000);
+  servo1.write(180);
+  servo2.write(180);
+  servo3.write(0);
+  servo4.write(0);
+  delay(1000);
+  servo1.write(90);
+  servo2.write(90);
+  servo3.write(90);
+  servo4.write(90);
+  delay(1000);
