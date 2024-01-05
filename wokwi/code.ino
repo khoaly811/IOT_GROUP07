@@ -127,6 +127,7 @@ void setup() {
   ThingSpeak.begin(espClient);
 
 }
+
 void displayMotionOnLED() {
   lcd.clear();
   lcd.setCursor(0, 0);
@@ -136,6 +137,7 @@ void displayMotionOnLED() {
   digitalWrite(LED2_PIN, LOW);
   digitalWrite(LED3_PIN, LOW);
 }
+
 bool detectMotion(){
   if (getScale()){
     if (digitalRead(PIR_PIN) == HIGH){
@@ -149,6 +151,7 @@ bool detectMotion(){
   }
   return false;
 }
+
 void loop() {
   if(!espClient.connected()) {
       mqttReconnect();
@@ -159,60 +162,64 @@ void loop() {
     controlServos();
   } 
 
-    
+  int returncode = ThingSpeak.writeFields(myChannelNumber, myWriteAPIKey);    
 
-  // if (getScale()){
-  //   if (start_time == 0) {
-  //     start_time = millis();
-  //   }
-  //   Serial.println(start_time);
+  if (getScale()){
+    if (start_time == 0) {
+      start_time = millis();
+    }
+    Serial.println(start_time);
    
-  //   int returncode = ThingSpeak.writeFields(myChannelNumber, myWriteAPIKey);
-  //   int sleep_thingspeak = 0;
-  //   if (returncode == 200) {
-  //     Serial.println("Channel update successful.");
-  //   }
-  //   else {
-  //     Serial.println("Problem updating channel. HTTP error code");
-  //   }
-  //   if (digitalRead(PIR_PIN) == HIGH){
-  //     // countTime();
-  //     unsigned long current_time = millis();
-  //     long sleep_time = current_time - start_time - previous_time;
-  //     detectMotion();
-  //     previous_time = current_time + 10500;
-  //     total_sleep += sleep_time;
-  //   }
-  //   Serial.print("Total sleep: ");
-  //   Serial.print(total_sleep);
-  //   Serial.println(" milliseconds");
-  //   if (total_sleep > 0){
-  //     sleep_thingspeak = 1;
-  //   } else{
-  //     sleep_thingspeak = 0;
-  //   }
-  //   ThingSpeak.setField(3, sleep_thingspeak);
+    
+    int sleep_thingspeak = 0;
+    
+    tempAndHumid();
+    if (digitalRead(PIR_PIN) == HIGH){
+      // countTime();
+      unsigned long current_time = millis();
+      long sleep_time = current_time - start_time - previous_time;
+      detectMotion();
+      previous_time = current_time + 10500;
+      total_sleep += sleep_time;
+    }
+    Serial.print("Total sleep: ");
+    Serial.print(total_sleep);
+    Serial.println(" milliseconds");
+    if (total_sleep > 0){
+      sleep_thingspeak = 1;
+    } else{
+      sleep_thingspeak = 0;
+    }
+    ThingSpeak.setField(3, sleep_thingspeak);
 
-  //   // Wait a bit before scanning again
-  //   delay(500);
-  // }
-  // else {
-  //   start_time = 0;
-  //   if(total_sleep > 0) {
-  //     Serial.println(total_sleep);
-  //     int returncode = ThingSpeak.writeFields(myChannelNumber, myWriteAPIKey);
-  //     int sleep_thingspeak = 0;
-  //     if (total_sleep > 0){
-  //       sleep_thingspeak = 1;
-  //     } else{
-  //       sleep_thingspeak = 0;
-  //     }
-  //     ThingSpeak.setField(3, sleep_thingspeak);
-  //     total_sleep = 0;
-  //   }
-  //   previous_time = 0;
-  // }
+    
+  }
+  else {
+    start_time = 0;
+    if(total_sleep > 0) {
+      Serial.println(total_sleep);
+      int returncode = ThingSpeak.writeFields(myChannelNumber, myWriteAPIKey);
+      int sleep_thingspeak = 0;
+      if (total_sleep > 0){
+        sleep_thingspeak = 1;
+      } else{
+        sleep_thingspeak = 0;
+      }
+      ThingSpeak.setField(3, sleep_thingspeak);
+      total_sleep = 0;
+    }
+    previous_time = 0;
+  }
 
+  if (returncode == 200) {
+      Serial.println("Channel update successful.");
+    }
+    else {
+      Serial.println("Problem updating channel. HTTP error code");
+    }
+
+  // Wait a bit before scanning again
+    delay(500);
 }
 
 
