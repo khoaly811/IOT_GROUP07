@@ -1020,5 +1020,444 @@
         "icon": "dashboard",
         "disabled": false,
         "hidden": false
+    },
+    {
+        "id": "706157f4a960716e",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "09296bd45df7061e",
+        "type": "comment",
+        "z": "706157f4a960716e",
+        "name": "HOME",
+        "info": "",
+        "x": 130,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "c8a8d8990d58edce",
+        "type": "comment",
+        "z": "706157f4a960716e",
+        "name": "HOME",
+        "info": "",
+        "x": 150,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "aa50544252fffeea",
+        "type": "comment",
+        "z": "706157f4a960716e",
+        "name": "DEVICE MANAGER",
+        "info": "",
+        "x": 350,
+        "y": 1100,
+        "wires": []
+    },
+    {
+        "id": "091414e5228e2e7f",
+        "type": "mqtt out",
+        "z": "706157f4a960716e",
+        "name": "",
+        "topic": "buzzer/trigger",
+        "qos": "2",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "765ac9edbab7f418",
+        "x": 1560,
+        "y": 1160,
+        "wires": []
+    },
+    {
+        "id": "ebf5d3bf2b9cafb3",
+        "type": "ui_button",
+        "z": "706157f4a960716e",
+        "name": "",
+        "group": "f6207949e303eac6",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Trigger the buzzer",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "trigger buzzer",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 1050,
+        "y": 1020,
+        "wires": [
+            [
+                "ba61b6f77584b9e9"
+            ]
+        ]
+    },
+    {
+        "id": "ff46e2d9248fcf94",
+        "type": "ui_switch",
+        "z": "706157f4a960716e",
+        "name": "",
+        "label": "Mute sound",
+        "tooltip": "",
+        "group": "f6207949e303eac6",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 1150,
+        "y": 1160,
+        "wires": [
+            [
+                "e0777f1d0a042f3f"
+            ]
+        ]
+    },
+    {
+        "id": "59328b19f604fde3",
+        "type": "mongodb3 in",
+        "z": "706157f4a960716e",
+        "service": "_ext_",
+        "configNode": "aed9c4a600bee363",
+        "name": "Read state",
+        "collection": "buzzer_state",
+        "operation": "",
+        "x": 650,
+        "y": 1100,
+        "wires": [
+            [
+                "b59bc94c17385510"
+            ]
+        ]
+    },
+    {
+        "id": "1c7557178eb1284b",
+        "type": "function",
+        "z": "706157f4a960716e",
+        "name": "Read state",
+        "func": "msg.payload = {}\nmsg.operation = \"find.forEach\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 1160,
+        "wires": [
+            [
+                "59328b19f604fde3"
+            ]
+        ]
+    },
+    {
+        "id": "b59bc94c17385510",
+        "type": "function",
+        "z": "706157f4a960716e",
+        "name": "Store states",
+        "func": "flow.set('is_mute', msg.payload.is_mute);\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 810,
+        "y": 1160,
+        "wires": [
+            [
+                "72cfac6e31bd45af"
+            ]
+        ]
+    },
+    {
+        "id": "72cfac6e31bd45af",
+        "type": "function",
+        "z": "706157f4a960716e",
+        "name": "Set mute state",
+        "func": "msg.payload = flow.get('is_mute');\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 980,
+        "y": 1100,
+        "wires": [
+            [
+                "ff46e2d9248fcf94"
+            ]
+        ]
+    },
+    {
+        "id": "ba61b6f77584b9e9",
+        "type": "function",
+        "z": "706157f4a960716e",
+        "name": "isMuted?",
+        "func": "msg.payload = ''\nmsg.payload = flow.get('is_mute');\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1260,
+        "y": 1080,
+        "wires": [
+            [
+                "efae8d3188b00cd1",
+                "091414e5228e2e7f"
+            ]
+        ]
+    },
+    {
+        "id": "e0777f1d0a042f3f",
+        "type": "function",
+        "z": "706157f4a960716e",
+        "name": "Set mute",
+        "func": "flow.set('is_mute', msg.payload);\nmsg.payload = [{ id: \"1\" }, { $set: { \"is_mute\": msg.payload } }];\nmsg.operation = \"updateOne\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1320,
+        "y": 1220,
+        "wires": [
+            [
+                "baa6cfb4b2a7774c"
+            ]
+        ]
+    },
+    {
+        "id": "baa6cfb4b2a7774c",
+        "type": "mongodb3 in",
+        "z": "706157f4a960716e",
+        "service": "_ext_",
+        "configNode": "aed9c4a600bee363",
+        "name": "write isMuted",
+        "collection": "buzzer_state",
+        "operation": "",
+        "x": 1530,
+        "y": 1260,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "efae8d3188b00cd1",
+        "type": "debug",
+        "z": "706157f4a960716e",
+        "name": "debug 15",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1420,
+        "y": 1000,
+        "wires": []
+    },
+    {
+        "id": "3626950d780170ce",
+        "type": "inject",
+        "z": "706157f4a960716e",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "1",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 310,
+        "y": 1160,
+        "wires": [
+            [
+                "1c7557178eb1284b"
+            ]
+        ]
+    },
+    {
+        "id": "cb712741df7b36e5",
+        "type": "ui_button",
+        "z": "706157f4a960716e",
+        "name": "",
+        "group": "781ac152bb694f16",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Trigger Servos",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "trigger servos",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 940,
+        "y": 1320,
+        "wires": [
+            [
+                "f312c40b423a792f"
+            ]
+        ]
+    },
+    {
+        "id": "585f9ba2edf45ab4",
+        "type": "mqtt out",
+        "z": "706157f4a960716e",
+        "name": "",
+        "topic": "servos/trigger",
+        "qos": "2",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "765ac9edbab7f418",
+        "x": 1260,
+        "y": 1320,
+        "wires": []
+    },
+    {
+        "id": "f312c40b423a792f",
+        "type": "change",
+        "z": "706157f4a960716e",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1080,
+        "y": 1400,
+        "wires": [
+            [
+                "585f9ba2edf45ab4"
+            ]
+        ]
+    },
+    {
+        "id": "765ac9edbab7f418",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "test.mosquitto.org",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "f6207949e303eac6",
+        "type": "ui_group",
+        "name": "Buzzer",
+        "tab": "5623917b3e1f8867",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "aed9c4a600bee363",
+        "type": "mongodb3",
+        "uri": "mongodb+srv://vttin21:superchina@cluster0.1hnnvkh.mongodb.net/?retryWrites=true&w=majority",
+        "name": "",
+        "options": "",
+        "parallelism": "-1"
+    },
+    {
+        "id": "781ac152bb694f16",
+        "type": "ui_group",
+        "name": "Servos",
+        "tab": "5623917b3e1f8867",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "5623917b3e1f8867",
+        "type": "ui_tab",
+        "name": "Device7",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
     }
 ]
