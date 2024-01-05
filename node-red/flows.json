@@ -1022,14 +1022,6 @@
         "hidden": false
     },
     {
-        "id": "706157f4a960716e",
-        "type": "tab",
-        "label": "Flow 1",
-        "disabled": false,
-        "info": "",
-        "env": []
-    },
-    {
         "id": "09296bd45df7061e",
         "type": "comment",
         "z": "706157f4a960716e",
