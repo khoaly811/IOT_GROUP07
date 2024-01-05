@@ -1,6 +1,6 @@
 [
     {
-        "id": "f443ee7e56592f80",
+        "id": "eaf8f43ff0ca25e2",
         "type": "tab",
         "label": "Flow 1",
         "disabled": false,
@@ -8,12 +8,12 @@
         "env": []
     },
     {
-        "id": "b0be7ceaae9a8f0f",
+        "id": "564ce2e2663955f5",
         "type": "ui_form",
-        "z": "f443ee7e56592f80",
+        "z": "eaf8f43ff0ca25e2",
         "name": "login",
         "label": "Login",
-        "group": "b04094c5dac47317",
+        "group": "bcd98fba5a76f659",
         "order": 0,
         "width": 0,
         "height": 0,
@@ -44,36 +44,36 @@
         "topicType": "msg",
         "splitLayout": "",
         "className": "",
-        "x": 530,
-        "y": 440,
+        "x": 390,
+        "y": 120,
         "wires": [
             [
-                "87575f426e662cc2"
+                "7533537259c694c0"
             ]
         ]
     },
     {
-        "id": "f9fb2b65feec0d1f",
+        "id": "68214c683afe3523",
         "type": "mongodb3 in",
-        "z": "f443ee7e56592f80",
+        "z": "eaf8f43ff0ca25e2",
         "service": "_ext_",
-        "configNode": "a5bf18d5d616456a",
+        "configNode": "b75bc0c6285b07e4",
         "name": "mauth",
         "collection": "account",
         "operation": "",
-        "x": 1010,
-        "y": 100,
+        "x": 790,
+        "y": 200,
         "wires": [
             [
-                "8ebda819a2c4f9ec"
+                "55bdde2b689965d6"
             ]
         ]
     },
     {
-        "id": "21bdc14fc15f298b",
+        "id": "a4d6e2c1523b865b",
         "type": "function",
-        "z": "f443ee7e56592f80",
-        "name": "function 1",
+        "z": "eaf8f43ff0ca25e2",
+        "name": "Read data",
         "func": "msg.payload = {}\nmsg.operation = \"find.forEach\";\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
@@ -81,38 +81,38 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 840,
-        "y": 420,
+        "x": 810,
+        "y": 120,
         "wires": [
             [
-                "f9fb2b65feec0d1f"
+                "68214c683afe3523"
             ]
         ]
     },
     {
-        "id": "8ebda819a2c4f9ec",
+        "id": "55bdde2b689965d6",
         "type": "function",
-        "z": "f443ee7e56592f80",
-        "name": "function 2",
-        "func": "if (msg.payload.username == msg.login.username\n    && msg.payload.password == msg.login.password)\n        msg.payload.notification = \"Login successfully\";\nelse\n        msg.payload.notification = \"Incorrect username or password\";\n\nreturn msg;",
+        "z": "eaf8f43ff0ca25e2",
+        "name": "Authenticate",
+        "func": "if (msg.payload.username == msg.login.username\n    && msg.payload.password == msg.login.password){\n        msg.payload.isValid = 1;\n        msg.payload.notification = \"Login successfully\";\n    }\nelse{\n        msg.payload.isValid = 0;\n        msg.payload.notification = \"Incorrect username or password\";\n}\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1140,
-        "y": 400,
+        "x": 970,
+        "y": 200,
         "wires": [
             [
-                "604c1c2b3663d4b1"
+                "0cb41a561dc6651a"
             ]
         ]
     },
     {
-        "id": "87575f426e662cc2",
+        "id": "7533537259c694c0",
         "type": "change",
-        "z": "f443ee7e56592f80",
+        "z": "eaf8f43ff0ca25e2",
         "name": "",
         "rules": [
             {
@@ -128,18 +128,18 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 680,
-        "y": 100,
+        "x": 610,
+        "y": 120,
         "wires": [
             [
-                "21bdc14fc15f298b"
+                "a4d6e2c1523b865b"
             ]
         ]
     },
     {
-        "id": "7dbdf59f64878771",
+        "id": "c7e31398454568f8",
         "type": "ui_toast",
-        "z": "f443ee7e56592f80",
+        "z": "eaf8f43ff0ca25e2",
         "position": "dialog",
         "displayTime": "3",
         "highlight": "",
@@ -151,16 +151,16 @@
         "className": "",
         "topic": "",
         "name": "",
-        "x": 1530,
-        "y": 400,
+        "x": 1210,
+        "y": 320,
         "wires": [
             []
         ]
     },
     {
-        "id": "604c1c2b3663d4b1",
+        "id": "ccdc021dfd3d267e",
         "type": "change",
-        "z": "f443ee7e56592f80",
+        "z": "eaf8f43ff0ca25e2",
         "name": "",
         "rules": [
             {
@@ -176,21 +176,21 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 1320,
-        "y": 100,
+        "x": 960,
+        "y": 320,
         "wires": [
             [
-                "7dbdf59f64878771"
+                "c7e31398454568f8"
             ]
         ]
     },
     {
-        "id": "df402f95b64e25c3",
+        "id": "fedfbbe6394ed918",
         "type": "ui_form",
-        "z": "f443ee7e56592f80",
+        "z": "eaf8f43ff0ca25e2",
         "name": "change in4",
         "label": "Change Information",
-        "group": "35567e95d9036b12",
+        "group": "c59cbf38157a1f68",
         "order": 1,
         "width": 0,
         "height": 0,
@@ -221,36 +221,36 @@
         "topicType": "msg",
         "splitLayout": "",
         "className": "",
-        "x": 530,
-        "y": 700,
+        "x": 430,
+        "y": 560,
         "wires": [
             [
-                "8e92ceef6f0ef9d5"
+                "882cc9de8a8a6d14"
             ]
         ]
     },
     {
-        "id": "80c39b6740a00cf3",
+        "id": "346c02c90f9f811d",
         "type": "mongodb3 in",
-        "z": "f443ee7e56592f80",
+        "z": "eaf8f43ff0ca25e2",
         "service": "_ext_",
-        "configNode": "a5bf18d5d616456a",
+        "configNode": "b75bc0c6285b07e4",
         "name": "change password",
         "collection": "account",
         "operation": "updateOne",
-        "x": 890,
-        "y": 700,
+        "x": 870,
+        "y": 560,
         "wires": [
             [
-                "a42026694e89ae81"
+                "7297203a6bd90910"
             ]
         ]
     },
     {
-        "id": "8e92ceef6f0ef9d5",
+        "id": "882cc9de8a8a6d14",
         "type": "function",
-        "z": "f443ee7e56592f80",
-        "name": "function 3",
+        "z": "eaf8f43ff0ca25e2",
+        "name": "Change password",
         "func": "//flow.get(\"password\", msg.payload.password);\nmsg.payload = [{\"username\": \"admin\"}, {$set: {\"password\": msg.payload.password}}];\nmsg.operation = \"updateOne\";\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
@@ -258,18 +258,18 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 700,
-        "y": 520,
+        "x": 630,
+        "y": 560,
         "wires": [
             [
-                "80c39b6740a00cf3"
+                "346c02c90f9f811d"
             ]
         ]
     },
     {
-        "id": "a42026694e89ae81",
+        "id": "7297203a6bd90910",
         "type": "change",
-        "z": "f443ee7e56592f80",
+        "z": "eaf8f43ff0ca25e2",
         "name": "",
         "rules": [
             {
@@ -289,14 +289,14 @@
         "y": 560,
         "wires": [
             [
-                "384da5f3a196424e"
+                "e46a10633f011003"
             ]
         ]
     },
     {
-        "id": "384da5f3a196424e",
+        "id": "e46a10633f011003",
         "type": "ui_toast",
-        "z": "f443ee7e56592f80",
+        "z": "eaf8f43ff0ca25e2",
         "position": "dialog",
         "displayTime": "3",
         "highlight": "",
@@ -308,113 +308,40 @@
         "className": "",
         "topic": "",
         "name": "",
-        "x": 1290,
-        "y": 700,
+        "x": 1330,
+        "y": 560,
         "wires": [
             []
         ]
     },
     {
-        "id": "56e42f1643b3391c",
-        "type": "inject",
-        "z": "f443ee7e56592f80",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "1",
-        "crontab": "",
-        "once": true,
-        "onceDelay": 0.1,
-        "topic": "servo/turn",
-        "payload": "90",
-        "payloadType": "str",
-        "x": 520,
-        "y": 800,
-        "wires": [
-            [
-                "b43a6c9d475a09a4"
-            ]
-        ]
-    },
-    {
-        "id": "b43a6c9d475a09a4",
-        "type": "mqtt out",
-        "z": "f443ee7e56592f80",
-        "name": "",
-        "topic": "servo/turn",
-        "qos": "2",
-        "retain": "false",
-        "respTopic": "",
-        "contentType": "",
-        "userProps": "",
-        "correl": "",
-        "expiry": "",
-        "broker": "0f531c1ca3146c19",
-        "x": 810,
-        "y": 800,
+        "id": "56f0e400f4c1a55f",
+        "type": "comment",
+        "z": "eaf8f43ff0ca25e2",
+        "name": "LOG IN",
+        "info": "",
+        "x": 130,
+        "y": 60,
         "wires": []
     },
     {
-        "id": "b04094c5dac47317",
-        "type": "ui_group",
-        "name": "Home",
-        "tab": "e2c0db14e0242032",
-        "order": 1,
-        "disp": true,
-        "width": "6",
-        "collapse": false,
-        "className": ""
+        "id": "d4d7d8d8f0648bf2",
+        "type": "comment",
+        "z": "eaf8f43ff0ca25e2",
+        "name": "CHANGE PASSWORD",
+        "info": "",
+        "x": 340,
+        "y": 500,
+        "wires": []
     },
     {
-        "id": "a5bf18d5d616456a",
-        "type": "mongodb3",
-        "uri": "mongodb+srv://vttin21:superchina@cluster0.1hnnvkh.mongodb.net/?retryWrites=true&w=majority",
-        "name": "",
-        "options": "",
-        "parallelism": "-1"
-    },
-    {
-        "id": "35567e95d9036b12",
-        "type": "ui_group",
-        "name": "Information",
-        "tab": "e34f508fd6549f51",
-        "order": 1,
-        "disp": true,
-        "width": "6",
-        "collapse": false,
-        "className": ""
-    },
-    {
-        "id": "e2c0db14e0242032",
-        "type": "ui_tab",
-        "name": "Home",
-        "icon": "dashboard",
-        "disabled": false,
-        "hidden": false
-    },
-    {
-        "id": "e34f508fd6549f51",
-        "type": "ui_tab",
-        "name": "Settings",
-        "icon": "dashboard",
-        "disabled": false,
-        "hidden": false
-    },
-    {
-        "id": "2da2b8bc89f3b76d",
+        "id": "71c6e04e6382b430",
         "type": "ui_gauge",
-        "z": "8cd7f9bece66317e",
+        "z": "eaf8f43ff0ca25e2",
         "name": "",
-        "group": "f5b473cd1c37b8ea",
+        "group": "730e9c9b511105cb",
         "order": 1,
-        "width": "8",
+        "width": "6",
         "height": "4",
         "gtype": "gage",
         "title": "Temperature",
@@ -431,25 +358,25 @@
         "seg2": "37.5",
         "diff": false,
         "className": "",
-        "x": 870,
-        "y": 60,
+        "x": 1030,
+        "y": 740,
         "wires": []
     },
     {
-        "id": "1229b5eda0964faf",
+        "id": "8954a14a5c1d8793",
         "type": "ui_gauge",
-        "z": "8cd7f9bece66317e",
+        "z": "eaf8f43ff0ca25e2",
         "name": "",
-        "group": "d5b8e4da0f4de1d6",
+        "group": "730e9c9b511105cb",
         "order": 2,
-        "width": "8",
+        "width": "6",
         "height": "4",
         "gtype": "gage",
         "title": "Humidity",
         "label": "oC",
         "format": "{{msg.payload.humidity}}",
         "min": "20",
-        "max": "90",
+        "max": "100",
         "colors": [
             "#00b500",
             "#e6e600",
@@ -459,35 +386,35 @@
         "seg2": "70",
         "diff": false,
         "className": "",
-        "x": 860,
-        "y": 180,
+        "x": 1020,
+        "y": 880,
         "wires": []
     },
     {
-        "id": "a5035f2d4a0a042b",
+        "id": "8f45130a1736d52f",
         "type": "mqtt in",
-        "z": "8cd7f9bece66317e",
+        "z": "eaf8f43ff0ca25e2",
         "name": "",
         "topic": "Home/Temperature",
         "qos": "2",
         "datatype": "auto-detect",
-        "broker": "52ef8be74909898e",
+        "broker": "765ac9edbab7f418",
         "nl": false,
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 370,
-        "y": 140,
+        "x": 530,
+        "y": 840,
         "wires": [
             [
-                "f3ce5f0f576ad53e"
+                "172b9ae7864a5eaf"
             ]
         ]
     },
     {
-        "id": "c06277b7310cc7dc",
+        "id": "867c7d668edb6821",
         "type": "mqtt out",
-        "z": "8cd7f9bece66317e",
+        "z": "eaf8f43ff0ca25e2",
         "name": "",
         "topic": "home/data",
         "qos": "",
@@ -497,15 +424,15 @@
         "userProps": "",
         "correl": "",
         "expiry": "",
-        "broker": "52ef8be74909898e",
-        "x": 570,
-        "y": 380,
+        "broker": "765ac9edbab7f418",
+        "x": 730,
+        "y": 1080,
         "wires": []
     },
     {
-        "id": "2f1d77150f90df11",
+        "id": "893539269a5aef21",
         "type": "inject",
-        "z": "8cd7f9bece66317e",
+        "z": "eaf8f43ff0ca25e2",
         "name": "",
         "props": [
             {
@@ -523,18 +450,18 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 360,
-        "y": 380,
+        "x": 520,
+        "y": 1080,
         "wires": [
             [
-                "c06277b7310cc7dc"
+                "867c7d668edb6821"
             ]
         ]
     },
     {
-        "id": "71a049c2034f8e8b",
+        "id": "22c583eb82c000ce",
         "type": "http request",
-        "z": "8cd7f9bece66317e",
+        "z": "eaf8f43ff0ca25e2",
         "name": "",
         "method": "GET",
         "ret": "txt",
@@ -547,18 +474,18 @@
         "authType": "",
         "senderr": false,
         "headers": [],
-        "x": 450,
-        "y": 300,
+        "x": 610,
+        "y": 1000,
         "wires": [
             [
-                "348d89610e83e1f8"
+                "77ccf73a4ab0eff9"
             ]
         ]
     },
     {
-        "id": "73b07321b9e7490e",
+        "id": "9d91be8474ac0998",
         "type": "inject",
-        "z": "8cd7f9bece66317e",
+        "z": "eaf8f43ff0ca25e2",
         "name": "",
         "props": [
             {
@@ -576,35 +503,35 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 270,
-        "y": 300,
+        "x": 430,
+        "y": 1000,
         "wires": [
             [
-                "71a049c2034f8e8b"
+                "22c583eb82c000ce"
             ]
         ]
     },
     {
-        "id": "348d89610e83e1f8",
+        "id": "77ccf73a4ab0eff9",
         "type": "json",
-        "z": "8cd7f9bece66317e",
+        "z": "eaf8f43ff0ca25e2",
         "name": "",
         "property": "payload",
         "action": "",
         "pretty": false,
-        "x": 610,
-        "y": 300,
+        "x": 770,
+        "y": 1000,
         "wires": [
             [
-                "7c10cdcca011ee4b"
+                "480d6d05beb9dff7"
             ]
         ]
     },
     {
-        "id": "7c10cdcca011ee4b",
+        "id": "480d6d05beb9dff7",
         "type": "function",
-        "z": "8cd7f9bece66317e",
-        "name": "function 1",
+        "z": "eaf8f43ff0ca25e2",
+        "name": "Retrieve data",
         "func": "msg.payload = Number(msg.payload.feeds[0].field3);\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
@@ -612,32 +539,32 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 760,
-        "y": 300,
+        "x": 930,
+        "y": 1000,
         "wires": [
             [
-                "7c431278652059a2"
+                "956093e9b55ea190"
             ]
         ]
     },
     {
-        "id": "dc390d5b43992a8d",
+        "id": "98b8847a572d3dcb",
         "type": "comment",
-        "z": "8cd7f9bece66317e",
-        "name": "Dashboard",
+        "z": "eaf8f43ff0ca25e2",
+        "name": "DASHBOARD",
         "info": "",
-        "x": 140,
-        "y": 80,
+        "x": 310,
+        "y": 780,
         "wires": []
     },
     {
-        "id": "7c431278652059a2",
+        "id": "956093e9b55ea190",
         "type": "ui_chart",
-        "z": "8cd7f9bece66317e",
+        "z": "eaf8f43ff0ca25e2",
         "name": "",
-        "group": "457669cf121f2326",
+        "group": "4fab4fa8aa39885c",
         "order": 0,
-        "width": "16",
+        "width": "12",
         "height": "6",
         "label": "chart",
         "chartType": "line",
@@ -668,37 +595,37 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 930,
-        "y": 300,
+        "x": 1090,
+        "y": 1000,
         "wires": [
             []
         ]
     },
     {
-        "id": "8dfe76878b7ae3e4",
+        "id": "cbf34a3653e2d405",
         "type": "mqtt in",
-        "z": "8cd7f9bece66317e",
+        "z": "eaf8f43ff0ca25e2",
         "name": "",
         "topic": "Home/Humidity",
         "qos": "2",
         "datatype": "auto-detect",
-        "broker": "52ef8be74909898e",
+        "broker": "765ac9edbab7f418",
         "nl": false,
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 380,
-        "y": 240,
+        "x": 540,
+        "y": 940,
         "wires": [
             [
-                "e1ceb05acdc37f19"
+                "8d8020e25ab3cb60"
             ]
         ]
     },
     {
-        "id": "ee6c0e61a6d0032c",
+        "id": "3f157d6548b93f67",
         "type": "e-mail",
-        "z": "8cd7f9bece66317e",
+        "z": "eaf8f43ff0ca25e2",
         "server": "smtp.gmail.com",
         "port": "465",
         "authtype": "BASIC",
@@ -706,16 +633,16 @@
         "token": "oauth2Response.access_token",
         "secure": true,
         "tls": true,
-        "name": "nguyenan23090801@gmail.com",
+        "name": "dangkhoaly431@gmail.com",
         "dname": "Email",
-        "x": 1090,
-        "y": 160,
+        "x": 1250,
+        "y": 860,
         "wires": []
     },
     {
-        "id": "f3ce5f0f576ad53e",
+        "id": "172b9ae7864a5eaf",
         "type": "switch",
-        "z": "8cd7f9bece66317e",
+        "z": "eaf8f43ff0ca25e2",
         "name": "Check Temperature",
         "property": "payload.temperature",
         "propertyType": "msg",
@@ -741,26 +668,26 @@
         "checkall": "true",
         "repair": false,
         "outputs": 3,
-        "x": 630,
-        "y": 120,
+        "x": 790,
+        "y": 820,
         "wires": [
             [
-                "2da2b8bc89f3b76d"
+                "71c6e04e6382b430"
             ],
             [
-                "2da2b8bc89f3b76d",
-                "d3a55b1524161fc6"
+                "71c6e04e6382b430",
+                "a5568526e3957e6c"
             ],
             [
-                "2da2b8bc89f3b76d",
-                "6f5814b233f2a83b"
+                "71c6e04e6382b430",
+                "2edd1e66bd38f86c"
             ]
         ]
     },
     {
-        "id": "6f5814b233f2a83b",
+        "id": "2edd1e66bd38f86c",
         "type": "change",
-        "z": "8cd7f9bece66317e",
+        "z": "eaf8f43ff0ca25e2",
         "name": "Email text",
         "rules": [
             {
@@ -783,18 +710,18 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 860,
-        "y": 140,
+        "x": 1020,
+        "y": 840,
         "wires": [
             [
-                "ee6c0e61a6d0032c"
+                "3f157d6548b93f67"
             ]
         ]
     },
     {
-        "id": "d3a55b1524161fc6",
+        "id": "a5568526e3957e6c",
         "type": "change",
-        "z": "8cd7f9bece66317e",
+        "z": "eaf8f43ff0ca25e2",
         "name": "Email text",
         "rules": [
             {
@@ -817,18 +744,18 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 860,
-        "y": 100,
+        "x": 1020,
+        "y": 800,
         "wires": [
             [
-                "ee6c0e61a6d0032c"
+                "3f157d6548b93f67"
             ]
         ]
     },
     {
-        "id": "e1ceb05acdc37f19",
+        "id": "8d8020e25ab3cb60",
         "type": "switch",
-        "z": "8cd7f9bece66317e",
+        "z": "eaf8f43ff0ca25e2",
         "name": "Check Humidity",
         "property": "payload.humidity",
         "propertyType": "msg",
@@ -854,26 +781,26 @@
         "checkall": "true",
         "repair": false,
         "outputs": 3,
-        "x": 620,
-        "y": 240,
+        "x": 780,
+        "y": 940,
         "wires": [
             [
-                "1229b5eda0964faf"
+                "8954a14a5c1d8793"
             ],
             [
-                "1229b5eda0964faf",
-                "6694accd6ab6bcf0"
+                "8954a14a5c1d8793",
+                "1d1adc4d8e86535d"
             ],
             [
-                "1229b5eda0964faf",
-                "dcb7104402b8f0ab"
+                "8954a14a5c1d8793",
+                "419ab783601bece1"
             ]
         ]
     },
     {
-        "id": "6694accd6ab6bcf0",
+        "id": "1d1adc4d8e86535d",
         "type": "change",
-        "z": "8cd7f9bece66317e",
+        "z": "eaf8f43ff0ca25e2",
         "name": "Email text",
         "rules": [
             {
@@ -896,18 +823,18 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 860,
-        "y": 220,
+        "x": 1020,
+        "y": 920,
         "wires": [
             [
-                "ee6c0e61a6d0032c"
+                "3f157d6548b93f67"
             ]
         ]
     },
     {
-        "id": "dcb7104402b8f0ab",
+        "id": "419ab783601bece1",
         "type": "change",
-        "z": "8cd7f9bece66317e",
+        "z": "eaf8f43ff0ca25e2",
         "name": "Email text",
         "rules": [
             {
@@ -930,361 +857,18 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 860,
-        "y": 260,
+        "x": 1020,
+        "y": 960,
         "wires": [
             [
-                "ee6c0e61a6d0032c"
+                "3f157d6548b93f67"
             ]
         ]
     },
     {
-        "id": "f5b473cd1c37b8ea",
-        "type": "ui_group",
-        "name": "Temperature",
-        "tab": "1ae68597cbbb5d32",
-        "order": 2,
-        "disp": true,
-        "width": "8",
-        "collapse": false,
-        "className": ""
-    },
-    {
-        "id": "d5b8e4da0f4de1d6",
-        "type": "ui_group",
-        "name": "Humidity",
-        "tab": "1ae68597cbbb5d32",
-        "order": 3,
-        "disp": true,
-        "width": "8",
-        "collapse": false,
-        "className": ""
-    },
-    {
-        "id": "0f531c1ca3146c19",
-        "type": "mqtt-broker",
-        "name": "",
-        "broker": "test.mosquitto.org",
-        "port": "1883",
-        "clientid": "",
-        "autoConnect": true,
-        "usetls": false,
-        "protocolVersion": "4",
-        "keepalive": "60",
-        "cleansession": true,
-        "autoUnsubscribe": true,
-        "birthTopic": "",
-        "birthQos": "0",
-        "birthRetain": "false",
-        "birthPayload": "",
-        "birthMsg": {},
-        "closeTopic": "",
-        "closeQos": "0",
-        "closeRetain": "false",
-        "closePayload": "",
-        "closeMsg": {},
-        "willTopic": "",
-        "willQos": "0",
-        "willRetain": "false",
-        "willPayload": "",
-        "willMsg": {},
-        "userProps": "",
-        "sessionExpiry": ""
-    },
-    {
-        "id": "457669cf121f2326",
-        "type": "ui_group",
-        "name": "Sleep chart",
-        "tab": "1ae68597cbbb5d32",
-        "order": 2,
-        "disp": false,
-        "width": "16",
-        "collapse": false,
-        "className": ""
-    },
-    {
-        "id": "1ae68597cbbb5d32",
-        "type": "ui_tab",
-        "name": "Dashboard",
-        "id": "e2c0db14e0242032",
-        "type": "ui_tab",
-        "name": "Home",
-        "icon": "dashboard",
-        "disabled": false,
-        "hidden": false
-    },
-    {
-        "id": "e34f508fd6549f51",
-        "type": "ui_tab",
-        "name": "Settings",
-        "icon": "dashboard",
-        "disabled": false,
-        "hidden": false
-    },
-    {
-        "id": "09296bd45df7061e",
-        "type": "comment",
-        "z": "706157f4a960716e",
-        "name": "HOME",
-        "info": "",
-        "x": 130,
-        "y": 60,
-        "wires": []
-    },
-    {
-        "id": "c8a8d8990d58edce",
-        "type": "comment",
-        "z": "706157f4a960716e",
-        "name": "HOME",
-        "info": "",
-        "x": 150,
-        "y": 360,
-        "wires": []
-    },
-    {
-        "id": "aa50544252fffeea",
-        "type": "comment",
-        "z": "706157f4a960716e",
-        "name": "DEVICE MANAGER",
-        "info": "",
-        "x": 350,
-        "y": 1100,
-        "wires": []
-    },
-    {
-        "id": "091414e5228e2e7f",
-        "type": "mqtt out",
-        "z": "706157f4a960716e",
-        "name": "",
-        "topic": "buzzer/trigger",
-        "qos": "2",
-        "retain": "",
-        "respTopic": "",
-        "contentType": "",
-        "userProps": "",
-        "correl": "",
-        "expiry": "",
-        "broker": "765ac9edbab7f418",
-        "x": 1560,
-        "y": 1160,
-        "wires": []
-    },
-    {
-        "id": "ebf5d3bf2b9cafb3",
-        "type": "ui_button",
-        "z": "706157f4a960716e",
-        "name": "",
-        "group": "f6207949e303eac6",
-        "order": 1,
-        "width": 0,
-        "height": 0,
-        "passthru": false,
-        "label": "Trigger the buzzer",
-        "tooltip": "",
-        "color": "",
-        "bgcolor": "",
-        "className": "",
-        "icon": "",
-        "payload": "trigger buzzer",
-        "payloadType": "str",
-        "topic": "topic",
-        "topicType": "msg",
-        "x": 1050,
-        "y": 1020,
-        "wires": [
-            [
-                "ba61b6f77584b9e9"
-            ]
-        ]
-    },
-    {
-        "id": "ff46e2d9248fcf94",
-        "type": "ui_switch",
-        "z": "706157f4a960716e",
-        "name": "",
-        "label": "Mute sound",
-        "tooltip": "",
-        "group": "f6207949e303eac6",
-        "order": 2,
-        "width": 0,
-        "height": 0,
-        "passthru": true,
-        "decouple": "false",
-        "topic": "topic",
-        "topicType": "msg",
-        "style": "",
-        "onvalue": "true",
-        "onvalueType": "bool",
-        "onicon": "",
-        "oncolor": "",
-        "offvalue": "false",
-        "offvalueType": "bool",
-        "officon": "",
-        "offcolor": "",
-        "animate": false,
-        "className": "",
-        "x": 1150,
-        "y": 1160,
-        "wires": [
-            [
-                "e0777f1d0a042f3f"
-            ]
-        ]
-    },
-    {
-        "id": "59328b19f604fde3",
-        "type": "mongodb3 in",
-        "z": "706157f4a960716e",
-        "service": "_ext_",
-        "configNode": "aed9c4a600bee363",
-        "name": "Read state",
-        "collection": "buzzer_state",
-        "operation": "",
-        "x": 650,
-        "y": 1100,
-        "wires": [
-            [
-                "b59bc94c17385510"
-            ]
-        ]
-    },
-    {
-        "id": "1c7557178eb1284b",
-        "type": "function",
-        "z": "706157f4a960716e",
-        "name": "Read state",
-        "func": "msg.payload = {}\nmsg.operation = \"find.forEach\";\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 470,
-        "y": 1160,
-        "wires": [
-            [
-                "59328b19f604fde3"
-            ]
-        ]
-    },
-    {
-        "id": "b59bc94c17385510",
-        "type": "function",
-        "z": "706157f4a960716e",
-        "name": "Store states",
-        "func": "flow.set('is_mute', msg.payload.is_mute);\n\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 810,
-        "y": 1160,
-        "wires": [
-            [
-                "72cfac6e31bd45af"
-            ]
-        ]
-    },
-    {
-        "id": "72cfac6e31bd45af",
-        "type": "function",
-        "z": "706157f4a960716e",
-        "name": "Set mute state",
-        "func": "msg.payload = flow.get('is_mute');\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 980,
-        "y": 1100,
-        "wires": [
-            [
-                "ff46e2d9248fcf94"
-            ]
-        ]
-    },
-    {
-        "id": "ba61b6f77584b9e9",
-        "type": "function",
-        "z": "706157f4a960716e",
-        "name": "isMuted?",
-        "func": "msg.payload = ''\nmsg.payload = flow.get('is_mute');\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1260,
-        "y": 1080,
-        "wires": [
-            [
-                "efae8d3188b00cd1",
-                "091414e5228e2e7f"
-            ]
-        ]
-    },
-    {
-        "id": "e0777f1d0a042f3f",
-        "type": "function",
-        "z": "706157f4a960716e",
-        "name": "Set mute",
-        "func": "flow.set('is_mute', msg.payload);\nmsg.payload = [{ id: \"1\" }, { $set: { \"is_mute\": msg.payload } }];\nmsg.operation = \"updateOne\";\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 1320,
-        "y": 1220,
-        "wires": [
-            [
-                "baa6cfb4b2a7774c"
-            ]
-        ]
-    },
-    {
-        "id": "baa6cfb4b2a7774c",
-        "type": "mongodb3 in",
-        "z": "706157f4a960716e",
-        "service": "_ext_",
-        "configNode": "aed9c4a600bee363",
-        "name": "write isMuted",
-        "collection": "buzzer_state",
-        "operation": "",
-        "x": 1530,
-        "y": 1260,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "efae8d3188b00cd1",
-        "type": "debug",
-        "z": "706157f4a960716e",
-        "name": "debug 15",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1420,
-        "y": 1000,
-        "wires": []
-    },
-    {
-        "id": "3626950d780170ce",
+        "id": "8148772df6d81de3",
         "type": "inject",
-        "z": "706157f4a960716e",
+        "z": "eaf8f43ff0ca25e2",
         "name": "",
         "props": [
             {
@@ -1303,19 +887,350 @@
         "payload": "",
         "payloadType": "date",
         "x": 310,
-        "y": 1160,
+        "y": 1340,
         "wires": [
             [
-                "1c7557178eb1284b"
+                "0c90d702e2e2820c"
             ]
         ]
     },
     {
-        "id": "cb712741df7b36e5",
-        "type": "ui_button",
-        "z": "706157f4a960716e",
+        "id": "bc24f41b40cb43ca",
+        "type": "comment",
+        "z": "eaf8f43ff0ca25e2",
+        "name": "DEVICE MANAGER",
+        "info": "",
+        "x": 350,
+        "y": 1280,
+        "wires": []
+    },
+    {
+        "id": "c73c3dfec7bffee2",
+        "type": "ui_switch",
+        "z": "eaf8f43ff0ca25e2",
         "name": "",
-        "group": "781ac152bb694f16",
+        "label": "Mute sound",
+        "tooltip": "",
+        "group": "d3d13dd36c8bc870",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 1230,
+        "y": 1340,
+        "wires": [
+            [
+                "cfcccc9b77ff1f7c"
+            ]
+        ]
+    },
+    {
+        "id": "0b41f2b5f04df866",
+        "type": "mongodb3 in",
+        "z": "eaf8f43ff0ca25e2",
+        "service": "_ext_",
+        "configNode": "aed9c4a600bee363",
+        "name": "Read state",
+        "collection": "buzzer_state",
+        "operation": "",
+        "x": 650,
+        "y": 1340,
+        "wires": [
+            [
+                "765f85828b2dcb8e"
+            ]
+        ]
+    },
+    {
+        "id": "0c90d702e2e2820c",
+        "type": "function",
+        "z": "eaf8f43ff0ca25e2",
+        "name": "Read state",
+        "func": "msg.payload = {}\nmsg.operation = \"find.forEach\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 1340,
+        "wires": [
+            [
+                "0b41f2b5f04df866"
+            ]
+        ]
+    },
+    {
+        "id": "765f85828b2dcb8e",
+        "type": "function",
+        "z": "eaf8f43ff0ca25e2",
+        "name": "Store states",
+        "func": "flow.set('is_mute', msg.payload.is_mute);\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 830,
+        "y": 1340,
+        "wires": [
+            [
+                "e63b346dc83168f3"
+            ]
+        ]
+    },
+    {
+        "id": "e63b346dc83168f3",
+        "type": "function",
+        "z": "eaf8f43ff0ca25e2",
+        "name": "Set mute state",
+        "func": "msg.payload = flow.get('is_mute');\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1040,
+        "y": 1340,
+        "wires": [
+            [
+                "c73c3dfec7bffee2"
+            ]
+        ]
+    },
+    {
+        "id": "cfcccc9b77ff1f7c",
+        "type": "function",
+        "z": "eaf8f43ff0ca25e2",
+        "name": "Set mute",
+        "func": "flow.set('is_mute', msg.payload);\nmsg.payload = [{ id: \"1\" }, { $set: { \"is_mute\": msg.payload } }];\nmsg.operation = \"updateOne\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1220,
+        "y": 1260,
+        "wires": [
+            [
+                "c271520d20ad51f9"
+            ]
+        ]
+    },
+    {
+        "id": "c271520d20ad51f9",
+        "type": "mongodb3 in",
+        "z": "eaf8f43ff0ca25e2",
+        "service": "_ext_",
+        "configNode": "aed9c4a600bee363",
+        "name": "write isMuted",
+        "collection": "buzzer_state",
+        "operation": "",
+        "x": 1410,
+        "y": 1260,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "0cb41a561dc6651a",
+        "type": "switch",
+        "z": "eaf8f43ff0ca25e2",
+        "name": "",
+        "property": "payload.isValid",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "1",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "0",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 690,
+        "y": 300,
+        "wires": [
+            [
+                "52607d0d0a69f897",
+                "ccdc021dfd3d267e"
+            ],
+            [
+                "f7dcaa289a6fba06"
+            ]
+        ]
+    },
+    {
+        "id": "52607d0d0a69f897",
+        "type": "function",
+        "z": "eaf8f43ff0ca25e2",
+        "name": "Show tabs and disable Login",
+        "func": "msg.payload = {\n    \"tab\": \"Home\",\n    \"tabs\": {\n        \"hide\": [\"Home\"],\n        \"show\": [\"Dashboard\", \"Devices\", \"Settings\"],\n    }\n};\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1000,
+        "y": 280,
+        "wires": [
+            [
+                "33c00899461d7ae6"
+            ]
+        ]
+    },
+    {
+        "id": "a051d048b527fa59",
+        "type": "ui_toast",
+        "z": "eaf8f43ff0ca25e2",
+        "position": "top right",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": true,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "Authentication failed",
+        "name": "",
+        "x": 1230,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "33c00899461d7ae6",
+        "type": "ui_ui_control",
+        "z": "eaf8f43ff0ca25e2",
+        "name": "",
+        "events": "all",
+        "x": 1200,
+        "y": 260,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f7dcaa289a6fba06",
+        "type": "change",
+        "z": "eaf8f43ff0ca25e2",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.notification",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 960,
+        "y": 380,
+        "wires": [
+            [
+                "a051d048b527fa59"
+            ]
+        ]
+    },
+    {
+        "id": "a546ea5cb3e0d2f0",
+        "type": "function",
+        "z": "eaf8f43ff0ca25e2",
+        "name": "function 12",
+        "func": "msg.payload = {\n    \"tab\": \"Home\",\n    \"tabs\": {\n        \"show\": [\"Home\"],\n        \"hide\": [\"Dashboard\", \"Devices\", \"Settings\"],\n    }\n};\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 230,
+        "y": 260,
+        "wires": [
+            [
+                "0f7ac55c54e3c876"
+            ]
+        ]
+    },
+    {
+        "id": "0f7ac55c54e3c876",
+        "type": "ui_ui_control",
+        "z": "eaf8f43ff0ca25e2",
+        "name": "",
+        "events": "all",
+        "x": 440,
+        "y": 260,
+        "wires": [
+            [
+                "564ce2e2663955f5"
+            ]
+        ]
+    },
+    {
+        "id": "3c0a015c1092fc08",
+        "type": "inject",
+        "z": "eaf8f43ff0ca25e2",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 170,
+        "y": 120,
+        "wires": [
+            [
+                "a546ea5cb3e0d2f0"
+            ]
+        ]
+    },
+    {
+        "id": "83e1b7b926b0d32a",
+        "type": "ui_button",
+        "z": "eaf8f43ff0ca25e2",
+        "name": "",
+        "group": "d3d13dd36c8bc870",
         "order": 1,
         "width": 0,
         "height": 0,
@@ -1330,18 +1245,18 @@
         "payloadType": "str",
         "topic": "topic",
         "topicType": "msg",
-        "x": 940,
-        "y": 1320,
+        "x": 300,
+        "y": 1420,
         "wires": [
             [
-                "f312c40b423a792f"
+                "ab3ab11c295968cf"
             ]
         ]
     },
     {
-        "id": "585f9ba2edf45ab4",
+        "id": "fb9fed2585b5bad8",
         "type": "mqtt out",
-        "z": "706157f4a960716e",
+        "z": "eaf8f43ff0ca25e2",
         "name": "",
         "topic": "servos/trigger",
         "qos": "2",
@@ -1352,14 +1267,14 @@
         "correl": "",
         "expiry": "",
         "broker": "765ac9edbab7f418",
-        "x": 1260,
-        "y": 1320,
+        "x": 620,
+        "y": 1420,
         "wires": []
     },
     {
-        "id": "f312c40b423a792f",
+        "id": "ab3ab11c295968cf",
         "type": "change",
-        "z": "706157f4a960716e",
+        "z": "eaf8f43ff0ca25e2",
         "name": "",
         "rules": [
             {
@@ -1375,13 +1290,138 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 1080,
-        "y": 1400,
+        "x": 440,
+        "y": 1500,
         "wires": [
             [
-                "585f9ba2edf45ab4"
+                "fb9fed2585b5bad8"
             ]
         ]
+    },
+    {
+        "id": "ae7ae8e0c461f83b",
+        "type": "mqtt out",
+        "z": "eaf8f43ff0ca25e2",
+        "name": "",
+        "topic": "buzzer/trigger",
+        "qos": "2",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "765ac9edbab7f418",
+        "x": 1200,
+        "y": 1500,
+        "wires": []
+    },
+    {
+        "id": "e5d37ccddce78b38",
+        "type": "ui_button",
+        "z": "eaf8f43ff0ca25e2",
+        "name": "",
+        "group": "2b39d31a43adf77c",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Trigger the buzzer",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "trigger buzzer",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 830,
+        "y": 1420,
+        "wires": [
+            [
+                "2f87a0376ad9fb8d"
+            ]
+        ]
+    },
+    {
+        "id": "2f87a0376ad9fb8d",
+        "type": "function",
+        "z": "eaf8f43ff0ca25e2",
+        "name": "isMuted?",
+        "func": "msg.payload = ''\nmsg.payload = flow.get('is_mute');\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 960,
+        "y": 1500,
+        "wires": [
+            [
+                "ae7ae8e0c461f83b",
+                "8b4e081d87a50d30"
+            ]
+        ]
+    },
+    {
+        "id": "8b4e081d87a50d30",
+        "type": "debug",
+        "z": "eaf8f43ff0ca25e2",
+        "name": "debug 15",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1180,
+        "y": 1440,
+        "wires": []
+    },
+    {
+        "id": "bcd98fba5a76f659",
+        "type": "ui_group",
+        "name": "Login",
+        "tab": "09a8d6401b7eec8b",
+        "order": 5,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "b75bc0c6285b07e4",
+        "type": "mongodb3",
+        "uri": "mongodb+srv://vttin21:superchina@cluster0.1hnnvkh.mongodb.net/?retryWrites=true&w=majority",
+        "name": "",
+        "options": "",
+        "parallelism": "-1"
+    },
+    {
+        "id": "c59cbf38157a1f68",
+        "type": "ui_group",
+        "name": "Change password",
+        "tab": "f3d3f81d82c911d9",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "730e9c9b511105cb",
+        "type": "ui_group",
+        "name": "Environment",
+        "tab": "cb90d8c99d1730e8",
+        "order": 6,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
     },
     {
         "id": "765ac9edbab7f418",
@@ -1415,10 +1455,21 @@
         "sessionExpiry": ""
     },
     {
-        "id": "f6207949e303eac6",
+        "id": "4fab4fa8aa39885c",
         "type": "ui_group",
-        "name": "Buzzer",
-        "tab": "5623917b3e1f8867",
+        "name": "Sleep Duration",
+        "tab": "cb90d8c99d1730e8",
+        "order": 4,
+        "disp": true,
+        "width": "12",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "d3d13dd36c8bc870",
+        "type": "ui_group",
+        "name": "Servos",
+        "tab": "d8cf1a1e5edb0602",
         "order": 1,
         "disp": true,
         "width": "6",
@@ -1434,20 +1485,44 @@
         "parallelism": "-1"
     },
     {
-        "id": "781ac152bb694f16",
+        "id": "2b39d31a43adf77c",
         "type": "ui_group",
-        "name": "Servos",
-        "tab": "5623917b3e1f8867",
-        "order": 1,
+        "name": "Buzzer",
+        "tab": "d8cf1a1e5edb0602",
+        "order": 3,
         "disp": true,
         "width": "6",
         "collapse": false,
         "className": ""
     },
     {
-        "id": "5623917b3e1f8867",
+        "id": "09a8d6401b7eec8b",
         "type": "ui_tab",
-        "name": "Device7",
+        "name": "Home",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "f3d3f81d82c911d9",
+        "type": "ui_tab",
+        "name": "Settings",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "cb90d8c99d1730e8",
+        "type": "ui_tab",
+        "name": "Dashboard",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "d8cf1a1e5edb0602",
+        "type": "ui_tab",
+        "name": "Devices",
         "icon": "dashboard",
         "disabled": false,
         "hidden": false

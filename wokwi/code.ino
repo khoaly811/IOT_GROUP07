@@ -161,6 +161,7 @@ void loop() {
     displayMotionOnLED;
     controlServos();
   } 
+  tempAndHumid();
 
   int returncode = ThingSpeak.writeFields(myChannelNumber, myWriteAPIKey);    
 
@@ -173,7 +174,6 @@ void loop() {
     
     int sleep_thingspeak = 0;
     
-    tempAndHumid();
     if (digitalRead(PIR_PIN) == HIGH){
       // countTime();
       unsigned long current_time = millis();
