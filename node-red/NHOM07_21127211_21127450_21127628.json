@@ -373,7 +373,7 @@
         "height": "4",
         "gtype": "gage",
         "title": "Humidity",
-        "label": "oC",
+        "label": "%",
         "format": "{{msg.payload.humidity}}",
         "min": "20",
         "max": "100",
@@ -407,7 +407,8 @@
         "y": 840,
         "wires": [
             [
-                "172b9ae7864a5eaf"
+                "172b9ae7864a5eaf",
+                "cf4496a9e8dbcf18"
             ]
         ]
     },
@@ -455,95 +456,6 @@
         "wires": [
             [
                 "867c7d668edb6821"
-            ]
-        ]
-    },
-    {
-        "id": "22c583eb82c000ce",
-        "type": "http request",
-        "z": "eaf8f43ff0ca25e2",
-        "name": "",
-        "method": "GET",
-        "ret": "txt",
-        "paytoqs": "ignore",
-        "url": "https://api.thingspeak.com/channels/2373888/fields/3.json?api_key=PPXQIRCSVIGGUN8B&results=2",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "insecureHTTPParser": false,
-        "authType": "",
-        "senderr": false,
-        "headers": [],
-        "x": 610,
-        "y": 1000,
-        "wires": [
-            [
-                "77ccf73a4ab0eff9"
-            ]
-        ]
-    },
-    {
-        "id": "9d91be8474ac0998",
-        "type": "inject",
-        "z": "eaf8f43ff0ca25e2",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "30",
-        "crontab": "",
-        "once": true,
-        "onceDelay": "30",
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 430,
-        "y": 1000,
-        "wires": [
-            [
-                "22c583eb82c000ce"
-            ]
-        ]
-    },
-    {
-        "id": "77ccf73a4ab0eff9",
-        "type": "json",
-        "z": "eaf8f43ff0ca25e2",
-        "name": "",
-        "property": "payload",
-        "action": "",
-        "pretty": false,
-        "x": 770,
-        "y": 1000,
-        "wires": [
-            [
-                "480d6d05beb9dff7"
-            ]
-        ]
-    },
-    {
-        "id": "480d6d05beb9dff7",
-        "type": "function",
-        "z": "eaf8f43ff0ca25e2",
-        "name": "Retrieve data",
-        "func": "msg.payload = Number(msg.payload.feeds[0].field3);\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 930,
-        "y": 1000,
-        "wires": [
-            [
-                "956093e9b55ea190"
             ]
         ]
     },
@@ -618,7 +530,8 @@
         "y": 940,
         "wires": [
             [
-                "8d8020e25ab3cb60"
+                "8d8020e25ab3cb60",
+                "ad4dc09666cb18ee"
             ]
         ]
     },
@@ -633,7 +546,7 @@
         "token": "oauth2Response.access_token",
         "secure": true,
         "tls": true,
-        "name": "dangkhoaly431@gmail.com",
+        "name": "ldkhoa21@clc.fitus.edu.vn",
         "dname": "Email",
         "x": 1250,
         "y": 860,
@@ -911,10 +824,10 @@
         "name": "",
         "label": "Mute sound",
         "tooltip": "",
-        "group": "d3d13dd36c8bc870",
+        "group": "2b39d31a43adf77c",
         "order": 2,
-        "width": 0,
-        "height": 0,
+        "width": "3",
+        "height": "2",
         "passthru": true,
         "decouple": "false",
         "topic": "topic",
@@ -1383,6 +1296,182 @@
         "wires": []
     },
     {
+        "id": "22c583eb82c000ce",
+        "type": "http request",
+        "z": "eaf8f43ff0ca25e2",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://api.thingspeak.com/channels/2373888/fields/3.json?api_key=PPXQIRCSVIGGUN8B&results=100",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 610,
+        "y": 1000,
+        "wires": [
+            [
+                "77ccf73a4ab0eff9"
+            ]
+        ]
+    },
+    {
+        "id": "9d91be8474ac0998",
+        "type": "inject",
+        "z": "eaf8f43ff0ca25e2",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "30",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "30",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 430,
+        "y": 1000,
+        "wires": [
+            [
+                "22c583eb82c000ce"
+            ]
+        ]
+    },
+    {
+        "id": "77ccf73a4ab0eff9",
+        "type": "json",
+        "z": "eaf8f43ff0ca25e2",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 770,
+        "y": 1000,
+        "wires": [
+            [
+                "480d6d05beb9dff7"
+            ]
+        ]
+    },
+    {
+        "id": "480d6d05beb9dff7",
+        "type": "function",
+        "z": "eaf8f43ff0ca25e2",
+        "name": "Retrieve data",
+        "func": "msg.payload = Number(msg.payload.feeds[0].field3);\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 930,
+        "y": 1000,
+        "wires": [
+            [
+                "956093e9b55ea190"
+            ]
+        ]
+    },
+    {
+        "id": "4bbca6c9dac60d3c",
+        "type": "mqtt in",
+        "z": "eaf8f43ff0ca25e2",
+        "name": "",
+        "topic": "Home/Chart",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "765ac9edbab7f418",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 950,
+        "y": 1080,
+        "wires": [
+            [
+                "c6e47f6e012c4e2a"
+            ]
+        ]
+    },
+    {
+        "id": "c6e47f6e012c4e2a",
+        "type": "http request",
+        "z": "eaf8f43ff0ca25e2",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://api.thingspeak.com/update?api_key=5U7X98T6N86XGGA2&field3={{{payload.sleep_duration}}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 1130,
+        "y": 1080,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "cf4496a9e8dbcf18",
+        "type": "http request",
+        "z": "eaf8f43ff0ca25e2",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://api.thingspeak.com/update?api_key=5U7X98T6N86XGGA2&field1={{{payload.temperature}}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 810,
+        "y": 720,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ad4dc09666cb18ee",
+        "type": "http request",
+        "z": "eaf8f43ff0ca25e2",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://api.thingspeak.com/update?api_key=5U7X98T6N86XGGA2&field2={{{payload.humidity}}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 770,
+        "y": 880,
+        "wires": [
+            []
+        ]
+    },
+    {
         "id": "bcd98fba5a76f659",
         "type": "ui_group",
         "name": "Login",
@@ -1466,11 +1555,11 @@
         "className": ""
     },
     {
-        "id": "d3d13dd36c8bc870",
+        "id": "2b39d31a43adf77c",
         "type": "ui_group",
-        "name": "Servos",
+        "name": "Buzzer",
         "tab": "d8cf1a1e5edb0602",
-        "order": 1,
+        "order": 3,
         "disp": true,
         "width": "6",
         "collapse": false,
@@ -1485,11 +1574,11 @@
         "parallelism": "-1"
     },
     {
-        "id": "2b39d31a43adf77c",
+        "id": "d3d13dd36c8bc870",
         "type": "ui_group",
-        "name": "Buzzer",
+        "name": "Servos",
         "tab": "d8cf1a1e5edb0602",
-        "order": 3,
+        "order": 1,
         "disp": true,
         "width": "6",
         "collapse": false,
